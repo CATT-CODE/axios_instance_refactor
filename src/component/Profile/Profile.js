@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { debounce } from "lodash";
-import axios from "axios";
+import Axios from "../lib/axios/Axios";
 import {toast} from 'react-toastify'
 import jwtDecode from 'jwt-decode';
 
@@ -24,7 +24,7 @@ export class Profile extends Component {
             let getJwtTokenFromStorage = localStorage.getItem('jwtToken'); 
             let decodedJwtToken =  jwtDecode(getJwtTokenFromStorage);
             if (this.state.newPassword === this.state.confirmNewPassword) {
-                let success = await axios.put("http://localhost:3001/users/update-user-password", {
+                let success = await Axios.put("users/update-user-password", {
                     email: decodedJwtToken.email,
                     newPassword: this.state.newPassword, 
                     oldPassword: this.state.oldPassword, },

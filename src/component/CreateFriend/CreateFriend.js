@@ -20,7 +20,7 @@ export class CreateFriend extends Component {
         
         try {
             let jwtToken = localStorage.getItem("jwtToken")
-            let payload = await axios.get("http://localhost:3001/friends/get-all-friends", {
+            let payload = await axios.get("http://localhost:3003/friends/get-all-friends", {
                 headers: {
                     authorization: `Bearer ${jwtToken}`,
                 },
@@ -47,7 +47,7 @@ export class CreateFriend extends Component {
         const { firstName, lastName, mobileNumber, nickname } = this.state;
         let jwtToken = localStorage.getItem('jwtToken')
         try {
-            let payload = await axios.post("http://localhost:3001/friends/create-friend", {
+            let payload = await axios.post("http://localhost:3003/friends/create-friend", {
                 firstName,
                 lastName,
                 mobileNumber,

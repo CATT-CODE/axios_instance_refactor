@@ -3,6 +3,7 @@ import {toast} from 'react-toastify';
 import { checkIsUserLoggedIn } from "../lib/helpers";
 import jwtDecode from "jwt-decode";
 import Axios from "../lib/axios/Axios";
+import setAuthToken from "../lib/axios/setAuthToken"
 
 export class Login extends Component {
   state = {
@@ -33,6 +34,8 @@ export class Login extends Component {
         
         localStorage.setItem("jwtToken", result.data.jwtToken);
         
+        setAuthToken(result.data.jwtToken);
+
         let decodedJWToken = jwtDecode(result.data.jwtToken);
 
         //console.log(decodedJWToken);

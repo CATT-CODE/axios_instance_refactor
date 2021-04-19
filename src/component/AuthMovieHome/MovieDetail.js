@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import Axios from "../lib/axios/Axios";
 import axios from "axios";
+import setAuthToken from "../lib/axios/setAuthToken"
 
 export class MovieDetail extends Component {
 
@@ -22,11 +24,9 @@ export class MovieDetail extends Component {
             );
             let jwtToken = localStorage.getItem("jwtToken")
             
-            let friendsArrayPayload = await axios.get("http://localhost:3001/friends/get-all-friends", {
-                headers: {
-                    authorization: `Bearer ${jwtToken}`,
-                },
-            });
+            let friendsArrayPayload = await Axios.get("/friends/get-all-friends",
+                setAuthToken(jwtToken)
+            );
             
             this.setState({
                 movieInfo: payload.data,
@@ -52,14 +52,10 @@ export class MovieDetail extends Component {
       let jwtToken = localStorage.getItem('jwtToken');
       
       try {
-        let payload = await axios.post(
-          "http://localhost:3001/users/send-sms-movie-to-friend",
+        let payload = await Axios.post(
+          "/users/send-sms-movie-to-friend",
           movieTextInfo,
-          {
-            headers: {
-              authorization: `Bearer ${jwtToken}`
-            }
-          }
+          setAuthToken(jwtToken)
         );
         console.log(payload);
       } catch (e) {
