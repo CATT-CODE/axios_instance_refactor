@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import axios from "axios";
+import React, { Component } from 'react';
+import Axios from "../lib/axios/Axios";
+import setAuthToken from '../lib/axios/setAuthToken'
 
 export class CreateFriend extends Component {
     state = {
@@ -20,11 +21,7 @@ export class CreateFriend extends Component {
         
         try {
             let jwtToken = localStorage.getItem("jwtToken")
-            let payload = await axios.get("http://localhost:3003/friends/get-all-friends", {
-                headers: {
-                    authorization: `Bearer ${jwtToken}`,
-                },
-            });
+            let payload = await Axios.get("/friends/get-all-friends", setAuthToken(jwtToken));
 
             this.setState({
                 isLoading: false,
@@ -47,17 +44,13 @@ export class CreateFriend extends Component {
         const { firstName, lastName, mobileNumber, nickname } = this.state;
         let jwtToken = localStorage.getItem('jwtToken')
         try {
-            let payload = await axios.post("http://localhost:3003/friends/create-friend", {
+            let payload = await Axios.post("/friends/create-friend", {
                 firstName,
                 lastName,
                 mobileNumber,
                 nickname,
             },
-            {
-                headers: {
-                    authorization: `Bearer ${jwtToken}`,
-                },
-            });
+            setAuthToken(jwtToken));
 
             let newFriendsArray = [...this.state.friendsArray, payload.data]
 
